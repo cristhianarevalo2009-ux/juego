@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafío Educativo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+    h1 { color: #2c3e50; margin-bottom: 20px; }
+    .question { font-size: 1.2rem; color: #34495e; margin-bottom: 20px; }
+    .btn-container { display: flex; flex-direction: column; gap: 10px; }
+    button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: 2px solid #3498db;
+      background-color: white;
+      color: #3498db;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    button:hover { background-color: #3498db; color: white; }
+    .score { margin-top: 20px; font-weight: bold; color: #7f8c8d; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Desafío Educativo</h1>
+    <div id="game-box">
+      <div id="question" class="question">Cargando pregunta...</div>
+      <div id="answers" class="btn-container"></div>
+    </div>
+    <div id="score" class="score">Puntuación: 0</div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "¿Cuál es el planeta más grande del sistema solar?",
+        options: ["Tierra", "Júpiter", "Saturno", "Marte"],
+        correct: 1
+      },
+      {
+        q: "¿Cuál es el resultado de 8 × 7?",
+        options: ["54", "56", "64", "49"],
+        correct: 1
+      },
+      {
+        q: "¿En qué océano se encuentra la Isla de Pascua?",
+        options: ["Atlántico", "Índico", "Pacífico", "Ártico"],
+        correct: 2
+      },
+      {
+        q: "¿Qué elemento químico tiene el símbolo 'O'?",
+        options: ["Oro", "Osfóro", "Oxígeno", "Ozono"],
+        correct: 2
+      }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (currentQ >= questions.length) {
+        document.getElementById('game-box').innerHTML = `<h2>¡Juego Terminado!</h2><p>Tu puntuación final es ${score} de ${questions.length}</p>`;
+        return;
+      }
+
+      const qData = questions[currentQ];
+      document.getElementById('question').textContent = qData.q;
+      
+      const answersDiv = document.getElementById('answers');
+      answersDiv.innerHTML = '';
+
+      qData.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(index);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      if (selected === questions[currentQ].correct) {
+        score++;
+        alert("¡Correcto!");
+      } else {
+        alert("Incorrecto.");
+      }
+      document.getElementById('score').textContent = `Puntuación: ${score}`;
+      currentQ++;
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>
